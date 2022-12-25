@@ -19,4 +19,19 @@ export class AppController {
   getFlow2(): string {
     return this.appService.getFlow2();
   }
+
+  @Get("flow3")
+  getFlow3(): string {
+    return this.appService.getFlow3();
+  }
+
+  @Get("flow4")
+  getFlow4(): string {
+    return this.appService.getFlow4();
+  }
+
+  @Get("flow5")
+  getFlow5(): string {
+    return this.appService.getFlow5();
+  }
 }
