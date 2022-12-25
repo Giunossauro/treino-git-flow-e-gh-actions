@@ -24,4 +24,9 @@ export class AppController {
   getFlow3(): string {
     return this.appService.getFlow3();
   }
+
+  @Get("flow4")
+  getFlow4(): string {
+    return this.appService.getFlow4();
+  }
 }

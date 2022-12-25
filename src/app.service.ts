@@ -17,4 +17,8 @@ export class AppService {
   getFlow3(): string {
     return 'Flow 3 World!';
   }
+  
+  getFlow4(): string {
+    return 'Flow 4 World!';
+  }
 }
