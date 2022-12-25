@@ -32,6 +32,6 @@ export class AppController {
 
   @Get("flow5")
   getFlow5(): string {
-    return this.appService.getFlow4();
+    return this.appService.getFlow5();
   }
 }
