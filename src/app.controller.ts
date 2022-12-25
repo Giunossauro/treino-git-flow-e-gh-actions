@@ -19,4 +19,9 @@ export class AppController {
   getFlow2(): string {
     return this.appService.getFlow2();
   }
+
+  @Get("flow3")
+  getFlow3(): string {
+    return this.appService.getFlow3();
+  }
 }
