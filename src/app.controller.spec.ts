@@ -33,10 +33,10 @@ describe('AppController', () => {
     
     it('should return "Flow 4 World!"', () => {
       expect(appController.getFlow4()).toBe('Flow 4 World!');
-    });/* 
+    });
     
     it('should return "Flow 5 World!"', () => {
       expect(appController.getFlow5()).toBe('Flow 5 World!');
-    }); */
+    });
   });
 });
