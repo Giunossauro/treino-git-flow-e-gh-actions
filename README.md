@@ -5,6 +5,8 @@ Conheça: www.drconsulta.com
 
 [![Giu Node.js CI](https://github.com/Giunossauro/treino-git-flow-e-gh-actions/actions/workflows/node.js.yml/badge.svg)](https://github.com/Giunossauro/treino-git-flow-e-gh-actions/actions/workflows/node.js.yml)
 
+<a href="https://coveralls.io/github/Giunossauro/treino-git-flow-e-gh-actions?branch=master"><img src="https://coveralls.io/repos/github/Giunossauro/treino-git-flow-e-gh-actions/badge.svg?branch=develop#5" alt="Coverage" /></a>
+
 ## Objetivo
 O teste é destinado para vaga de Desenvolvedor Back-end entendo como o candidato efetuou a solução e o raciocinio de criação
 
