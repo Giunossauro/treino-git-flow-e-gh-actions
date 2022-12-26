@@ -7,6 +7,11 @@ Conheça: www.drconsulta.com
 
 <a href="https://coveralls.io/github/Giunossauro/treino-git-flow-e-gh-actions?branch=master"><img src="https://coveralls.io/repos/github/Giunossauro/treino-git-flow-e-gh-actions/badge.svg?branch=develop#5" alt="Coverage" /></a>
 
+[![Coverage Status](https://coveralls.io/repos/github/Giunossauro/treino-git-flow-e-gh-actions/badge.svg?branch=develop)](https://coveralls.io/github/Giunossauro/treino-git-flow-e-gh-actions?branch=develop)
+
+<a href='https://coveralls.io/github/Giunossauro/treino-git-flow-e-gh-actions?branch=develop'><img src='https://coveralls.io/repos/github/Giunossauro/treino-git-flow-e-gh-actions/badge.svg?branch=develop' alt='Coverage Status' /></a>
+
+
 ## Objetivo
 O teste é destinado para vaga de Desenvolvedor Back-end entendo como o candidato efetuou a solução e o raciocinio de criação
 
