@@ -58,5 +58,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "^9.2.1"
   }
 }
