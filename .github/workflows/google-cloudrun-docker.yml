@@ -46,7 +46,7 @@ name: Build and Deploy to Cloud Run
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "develop" ]
 
 env:
   PROJECT_ID: quick-glow-372722 # TODO: update Google Cloud project id 
