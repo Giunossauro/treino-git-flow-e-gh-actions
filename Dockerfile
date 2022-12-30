@@ -1,5 +1,7 @@
 FROM node:lts-alpine3.16
 
+USER node
+
 WORKDIR /home/node/app
 
 COPY package.json package*.json ./
@@ -13,7 +15,5 @@ RUN npm install -g @nestjs/cli
 
 COPY . .
 EXPOSE 8080
-
-USER node
 
 ENTRYPOINT npm install && npm run build && npm run start:dev
