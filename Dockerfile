@@ -9,7 +9,6 @@ ENV HOST 0.0.0.0
 
 RUN apk add --no-cache bash
 
-RUN npm install
 RUN npm install -g @nestjs/cli
 
 COPY . .
@@ -17,4 +16,4 @@ EXPOSE 8080
 
 USER node
 
-ENTRYPOINT npm run build && npm run start:dev
+ENTRYPOINT npm install && npm run build && npm run start:dev
