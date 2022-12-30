@@ -66,15 +66,6 @@ jobs:
       #- name: Checkout
       - uses: actions/checkout@v3
 
-      #
-      # Setup gcloud CLI
-      - uses: google-github-actions/setup-gcloud@v1
-        with:
-          service_account_key: ${{ secrets.GCE_SA_KEY }}
-          project_id: ${{ secrets.GCE_PROJECT }}
-          export_default_credentials: true
-      #
-
       - id: auth
         name: Google Auth
         uses: 'google-github-actions/auth@v1'
@@ -84,6 +75,15 @@ jobs:
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
           #id_token_audience: https://treino-git-flow-e-gh-actions-app-p7hpfgpwga-uc.a.run.app
 
+      #
+      # Setup gcloud CLI
+      - uses: google-github-actions/setup-gcloud@v1
+        with:
+          service_account_key: ${{ secrets.GCE_SA_KEY }}
+          project_id: ${{ env.PROJECT_ID }}
+          export_default_credentials: true
+
+      #
       #
       # Configure Docker to use the gcloud command-line tool as a credential
       # helper for authentication
