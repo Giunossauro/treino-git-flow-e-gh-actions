@@ -28,7 +28,7 @@
 #
 #    NOTE: You should always follow the principle of least privilege when assigning IAM roles
 #
-# 4. Create GitHub secrets for WIF_PROVIDER and WIF_SERVICE_ACCOUNT
+# 4. Create GitHub secrets for WIF_PROVIDER2 and WIF_SERVICE_ACCOUNT2
 #
 # 5. Change the values for the GAR_LOCATION, SERVICE and REGION environment variables (below).
 #
@@ -68,11 +68,11 @@ jobs:
 
       - id: auth
         name: Google Auth
-        uses: 'google-github-actions/auth@v2'
+        uses: 'google-github-actions/auth@v1'
         with:
           #token_format: 'access_token' #'id_token'
-          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
-          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER2 }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT2 }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
           #id_token_audience: https://treino-git-flow-e-gh-actions-app-p7hpfgpwga-uc.a.run.app
 
       #
