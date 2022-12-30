@@ -17,4 +17,4 @@ EXPOSE 8080
 
 USER node
 
-CMD npm run build && npm run start:dev
+CMD npm run start:dev
