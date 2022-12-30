@@ -79,6 +79,12 @@ jobs:
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
           #id_token_audience: https://treino-git-flow-e-gh-actions-app-p7hpfgpwga-uc.a.run.app
 
+      - id: 'gcloud'
+        name: 'gcloud'
+        run: |-
+          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
+          gcloud services list
+
       # 
       # Setup gcloud CLI
       - uses: google-github-actions/setup-gcloud@v1
