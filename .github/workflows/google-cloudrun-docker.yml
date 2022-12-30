@@ -113,6 +113,9 @@ jobs:
       - name: ahhh
         run: 'pwd'
 
+      - name: hehehe
+        run: 'cat gha-creds-*.json'
+
       - name: Deploy to Cloud Run
         id: deploy
         uses: 'google-github-actions/deploy-cloudrun@v1'
