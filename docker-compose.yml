@@ -12,3 +12,4 @@ services:
       - .:/home/node/app
     environment:
       - IS_TEST=0
+      - PORT=8080
