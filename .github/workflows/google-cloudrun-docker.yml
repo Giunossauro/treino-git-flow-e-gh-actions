@@ -76,7 +76,7 @@ jobs:
           #id_token_audience: https://treino-git-flow-e-gh-actions-app-p7hpfgpwga-uc.a.run.app
 
       - run: |-
-          echo '${{ steps.auth.outputs.access_token }}'
+          echo '${{ steps.auth.outputs }}'
 
     # This example uses the docker login action
       - uses: 'docker/login-action@v1'
