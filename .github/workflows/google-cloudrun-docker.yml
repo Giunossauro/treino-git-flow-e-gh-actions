@@ -86,11 +86,11 @@ jobs:
 
       # 
       # Setup gcloud CLI
-      - uses: google-github-actions/setup-gcloud@v1
-        with:
-          service_account_key: ${{ secrets.GCE_SA_KEY }}
-          project_id: ${{ env.PROJECT_ID }}
-          export_default_credentials: true
+      # - uses: google-github-actions/setup-gcloud@v1
+      #   with:
+      #     service_account_key: ${{ secrets.GCE_SA_KEY }}
+      #     project_id: ${{ env.PROJECT_ID }}
+      #     export_default_credentials: true
 
       #
       #
