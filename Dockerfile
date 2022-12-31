@@ -1,19 +1,25 @@
-FROM node:lts-alpine3.16
+FROM node:16.18.0-alpine3.16
+
+# RUN mkdir -p /root/.npm/_cacache/tmp
+# RUN chown -R 1000:1000 /root/.npm
 
 WORKDIR /home/node/app
 
-COPY package.json package*.json ./
+COPY package*.json ./
 
 ENV PORT 8080
-ENV HOST 0.0.0.0
+# ENV HOST 0.0.0.0
+# ENV NODE_ENV=production
 
 RUN apk add --no-cache bash
 
 RUN npm install -g @nestjs/cli
-
-COPY . .
-EXPOSE 8080
+# EXPOSE 8080
 
 ENTRYPOINT npm install && npm run build && npm run start:dev
+# ENTRYPOINT npm ci && npm run build && npm run start:dev
+# ENTRYPOINT npm ci --omit=dev && npm run build && npm run start:dev
 
-USER node
+COPY . .
+
+USER 0
