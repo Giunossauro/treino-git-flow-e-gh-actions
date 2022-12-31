@@ -47,6 +47,12 @@ name: Build and Deploy to Cloud Run
 on:
   push:
     branches: [ "develop" ]
+  workflow_call:
+    cr-flags:
+      required: false
+      type: string
+      description: "Additional cloud run flags to apply during deployment"
+      default: "--port 8080 --cpu 1 --memory 1024Mi --timeout 5m --concurrency 80 --min-instances 0 --max-instances 1" # --allow-unauthenticated"
 
 env:
   PROJECT_ID: quick-glow-372722 # TODO: update Google Cloud project id 
