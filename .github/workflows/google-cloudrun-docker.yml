@@ -58,9 +58,9 @@ on:
 env:
   PROJECT_ID: quick-glow-372722 # TODO: update Google Cloud project id 
   GAR_LOCATION: us-central1 # TODO: update Artifact Registry location
-  SERVICE: treino-git-flow-e-gh-actions-app # TODO: update Cloud Run service name
+  SERVICE: gha-svc #treino-git-flow-e-gh-actions-app # TODO: update Cloud Run service name
   REGION: us-central1 # TODO: update Cloud Run service region
-  IMAGE: 'gcr.io/quick-glow-372722/treino-git-flow-e-gh-actions-app:${{ github.sha }}'
+  IMAGE: 'us.gcr.io/quick-glow-372722/github_giunossauro_treino-git-flow-e-gh-actions/gha-svc:${{ github.sha }}' #'gcr.io/quick-glow-372722/treino-git-flow-e-gh-actions-app:${{ github.sha }}'
 
 jobs:
   deploy:
@@ -70,8 +70,6 @@ jobs:
       id-token: 'write'
 
     runs-on: ubuntu-latest #self-hosted
-
-    environment: production
 
     steps:
       - name: Checkout
@@ -89,9 +87,9 @@ jobs:
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
           #id_token_audience: https://treino-git-flow-e-gh-actions-app-p7hpfgpwga-uc.a.run.app
 
-      # - name: Docker configuration
-      #   run: |-
-      #     echo ${{steps.auth.outputs.access_token}}
+      - name: Docker configuration
+        run: |-
+          echo ${{ secrets.WIF_PROVIDER3 }} +++ ${{ secrets.WIF_SERVICE_ACCOUNT }}
           
       # 
       # Setup gcloud CLI
