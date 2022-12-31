@@ -8,13 +8,13 @@ WORKDIR /home/node/app
 COPY package*.json ./
 
 ENV PORT 8080
-# ENV HOST 0.0.0.0
+ENV HOST 0.0.0.0
 # ENV NODE_ENV=production
 
 RUN apk add --no-cache bash
 
 RUN npm install -g @nestjs/cli
-# EXPOSE 8080
+EXPOSE 8080
 
 ENTRYPOINT npm install && npm run build && npm run start:dev
 # ENTRYPOINT npm ci && npm run build && npm run start:dev
