@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "..."
+echo ".aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.."
 npm install
 npm run build
 npm run start:dev

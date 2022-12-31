@@ -28,7 +28,7 @@
 #
 #    NOTE: You should always follow the principle of least privilege when assigning IAM roles
 #
-# 4. Create GitHub secrets for WIF_PROVIDER and WIF_SERVICE_ACCOUNT
+# 4. Create GitHub secrets for WIF_PROVIDER2 and WIF_SERVICE_ACCOUNT2
 #
 # 5. Change the values for the GAR_LOCATION, SERVICE and REGION environment variables (below).
 #
@@ -46,13 +46,21 @@ name: Build and Deploy to Cloud Run
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "develop" ]
+  workflow_call:
+    inputs:
+      cr-flags:
+        required: false
+        type: string
+        description: "Additional cloud run flags to apply during deployment"
+        default: "--port 8081 --cpu 1 --memory 1024Mi --timeout 5m --concurrency 80 --min-instances 0 --max-instances 1" # --allow-unauthenticated"
 
 env:
   PROJECT_ID: quick-glow-372722 # TODO: update Google Cloud project id 
   GAR_LOCATION: us-central1 # TODO: update Artifact Registry location
   SERVICE: treino-git-flow-e-gh-actions-app # TODO: update Cloud Run service name
   REGION: us-central1 # TODO: update Cloud Run service region
+  IMAGE: 'gcr.io/quick-glow-372722/treino-git-flow-e-gh-actions-app:${{ github.sha }}'
 
 jobs:
   deploy:
@@ -61,60 +69,70 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #self-hosted
+
+    environment: production
+
     steps:
-      #- name: Checkout
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      #- name: Build the Docker image
+      #  run: 'docker build . --file Dockerfile --tag ${{ env.IMAGE }}'
 
       - id: auth
         name: Google Auth
         uses: 'google-github-actions/auth@v1'
         with:
-          #token_format: 'access_token' #'id_token'
-          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+          token_format: 'access_token' #'id_token'
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER3 }}' # e.g. - projects/13456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
           #id_token_audience: https://treino-git-flow-e-gh-actions-app-p7hpfgpwga-uc.a.run.app
 
-      # This example uses the docker login action
-      #- uses: 'docker/login-action@v1'
-      #  with:
-      #    registry: 'gcr.io' # or REGION-docker.pkg.dev
-      #    username: 'oauth2accesstoken'
-      #    password: '${{ steps.auth.outputs.access_token }}'
-
-      # NOTE: Alternative option - authentication via credentials json
-      # - name: Google Auth
-      #   id: auth
-      #   uses: 'google-github-actions/auth@v1'
+      # - name: Docker configuration
+      #   run: |-
+      #     echo ${{steps.auth.outputs.access_token}}
+          
+      # 
+      # Setup gcloud CLI
+      # - uses: google-github-actions/setup-gcloud@v1
       #   with:
-      #     credentials_json: '${{ secrets.GCP_CREDENTIALS }}''
+      #     service_account_key: ${{ secrets.GCE_SA_KEY }}
+      #     project_id: ${{ env.PROJECT_ID }}
+      #     export_default_credentials: true
+
+      #
+      #
+      # Configure Docker to use the gcloud command-line tool as a credential
+      # helper for authentication
+      # - run: |-
+      #     gcloud --quiet auth configure-docker
+      #
+      
+      # Uses the docker login action
+      - uses: 'docker/login-action@v1'
+        with:
+          registry: 'gcr.io' # or REGION-docker.pkg.dev
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
 
       # BEGIN - Docker auth and build (NOTE: If you already have a container image, these Docker steps can be omitted)
 
-      # Authenticate Docker to Google Cloud Artifact Registry
-      #  - name: Docker Auth
-      #    id: docker-auth
-      #    uses: 'docker/login-action@v1'
-      #    with:
-      #      username: 'oauth2accesstoken'
-      #      password: '${{ steps.auth.outputs.access_token }}'
-      #      registry: '${{ env.GAR_LOCATION }}-docker.pkg.dev'
-
-      #  - name: Build and Push Container
-      #    run: |-
-      #      docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}" ./
-      #      docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
+      - name: Build and Push Container
+        run: |-
+          docker build -t "gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}" ./
+          docker push "gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
 
       # END - Docker auth and build
 
-      - name: hmmm
-        run: 'ls'
+      # - name: hmmm
+      #   run: 'ls'
 
-      - name: ahhh
-        run: 'pwd'
+      # - name: Shows where cli are
+      #   run: 'pwd'
 
-      - name: hehehe
-        run: 'cat gha-creds-*.json'
+      # - name: Shows the files matching with above glob
+      #   run: 'cat gha-creds-*.json' 
 
       - name: Deploy to Cloud Run
         id: deploy
@@ -123,7 +141,7 @@ jobs:
           service: '${{ env.SERVICE }}'
           region: '${{ env.REGION }}'
           # NOTE: If using a pre-built image, update the image name here
-          image: '${{ env.GAR_LOCATION }}.gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}' #'gcr.io/quick-glow-372722/treino-git-flow-e-gh-actions-app@sha256:d745a47090d5079f6f6e1fe67de1c53900dbd9020a724d4470a2a507bb4fc346'
+          image: '${{ env.IMAGE }}' # '${{ env.GAR_LOCATION }}.gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}' #'gcr.io/quick-glow-372722/treino-git-flow-e-gh-actions-app@sha256:d745a47090d5079f6f6e1fe67de1c53900dbd9020a724d4470a2a507bb4fc346'
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
